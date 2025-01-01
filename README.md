@@ -1,5 +1,5 @@
 # azurecaptest
-Course progress screenshots
+Azure Course progress screenshots
 
 Tasks are divided into folders, abrreviations mean the following:
 
