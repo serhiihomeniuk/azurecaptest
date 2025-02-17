@@ -1,0 +1,52 @@
+az vm extension image list-versions `
+  --location "UK South" `
+  --publisher Microsoft.Azure.Monitor `
+  --name AzureMonitorLinuxAgent `
+  --query "[].name"
+
+az vm extension set `
+  --resource-group SHomeniuktask11bicep `
+  --vm-name Task11LinuxVM `
+  --name AzureMonitorLinuxAgent `
+  --publisher Microsoft.Azure.Monitor `
+  --version "1.9.1"
+
+az vm extension list `
+  --resource-group SHomeniuktask11bicep `
+  --vm-name Task11LinuxVM `
+  --query "[].{Name:name, ProvisioningState:provisioningState}"
+
+az vm monitor enable --resource-group SHomeniuktask11bicep --name Task11LinuxVM
+
+az monitor metrics list --resource /subscriptions/9a6ae428-d8c3-44fe-bdf2-4e08593901a0/resourceGroups/SHomeniuktask11bicep/providers/Microsoft.Compute/virtualMachines/Task11LinuxVM --metric-names "Percentage CPU" "Disk Read Bytes" "Disk Write Bytes" "Network In Total" "Network Out Total"
+
+az monitor action-group create `
+   --resource-group SHomeniuktask11bicep `
+   --name Task13AG `
+   --short-name Task13 `
+   --action email task13 serhii.homeniuk.id@gmail.com
+
+az monitor action-group show `
+  --name Task13AG `
+  --resource-group SHomeniuktask11bicep `
+  --query "id" -o tsv
+
+az monitor metrics alert create `
+  --name "HighCPUAlert" `
+  --resource-group "SHomeniuktask11bicep" `
+  --scopes "/subscriptions/9a6ae428-d8c3-44fe-bdf2-4e08593901a0/resourceGroups/SHomeniuktask11bicep/providers/Microsoft.Compute/virtualMachines/Task11LinuxVM" `
+  --condition "avg Percentage CPU > 80" `
+  --description "Alert when CPU usage exceeds 80% for 5 minutes" `
+  --severity 2 `
+  --window-size 5m `
+  --evaluation-frequency 1m `
+  --action Task13AG serhii.homeniuk.id@gmail.com
+
+az monitor metrics alert show `
+  --name "HighCPUAlert" `
+  --resource-group "SHomeniuktask11bicep"
+
+
+
+
+
