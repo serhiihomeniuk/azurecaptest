@@ -1,0 +1,13 @@
+ssh-keygen -t rsa -b 2048 -f C:\Users\serhi\.ssh\task10_key
+
+az group create --name SHomeniukARMGroup2 --location uksouth
+
+az deployment group create --resource-group SHomeniukARMGroup2 `
+  --template-file vm-deployment-template.json `
+  --parameters vmName=Task10UbuntuVM adminUsername=azureuser authenticationType=SSH adminPasswordOrKey="$(Get-Content -Raw C:\Users\serhi\.ssh\task10_key.pub)"
+
+az vm show --resource-group SHomeniukARMGroup2 --name Task10UbuntuVM --query "diagnosticsProfile.bootDiagnostics.enabled"
+
+az vm show --resource-group SHomeniukARMGroup2 --name Task10UbuntuVM --show-details --query "[publicIps, provisioningState]"
+
+ssh -i "~/.ssh/task10_key" azureuser@172.167.129.36
