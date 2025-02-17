@@ -1,0 +1,16 @@
+#Generate SSH Key (If Not Already Created)
+ssh-keygen -t rsa -b 2048 -f C:\Users\serhi\.ssh\task11key
+
+#Deploy the Bicep Template
+az deployment group create --resource-group SHomeniuktask11bicep `
+  --template-file main.bicep `
+  --parameters sshPublicKey="$(Get-Content -Raw C:\Users\serhi\.ssh\task11key.pub)"
+
+#Verify Deployment
+az vm show -d -g SHomeniuktask11bicep -n Task11LinuxVM --query publicIps -o tsv
+
+
+#Try SSH connection:
+ssh -i C:\Users\serhi\.ssh\task11key azureuser@172.167.17.222
+
+az vm show --resource-group SHomeniuktask11bicep --name Task11LinuxVM --query "hardwareProfile.vmSize" --output table
