@@ -1,0 +1,5 @@
+resource_group: SerhiiHomeniukAns
+location: uksouth
+ansible_user: azureuser
+ansible_ssh_private_key_file: ~/.ssh/ansvm_rsa
+ansible_host_key_checking: False

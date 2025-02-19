@@ -1,0 +1,24 @@
+# Create the resource group
+az group create --name SHomeniukARMGroup2 --location "UK South"
+
+# Deploy the ARM template
+az deployment group create `
+  --resource-group SHomeniukARMGroup2 `
+  --template-file arm-template.json `
+  --parameters storageAccountName=task8armsa
+
+az storage account blob-service-properties show `
+  --resource-group SHomeniukARMGroup2 `
+  --account-name task8armsa `
+  --query "deleteRetentionPolicy"
+
+az deployment group create `
+  --resource-group SHomeniukARMGroup2 `
+  --template-file storage-account-template.json `
+  --parameters storageAccountName=task8armsa
+
+
+az storage account delete --name task8armsa --resource-group SHomeniukARMGroup2 --yes
+
+
+

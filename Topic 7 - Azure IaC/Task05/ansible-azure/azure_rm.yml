@@ -1,0 +1,7 @@
+plugin: azure_rm
+include_vm_resource_groups:
+  - SerhiiHomeniukAns
+keyed_groups:
+  - prefix: azure
+    key: resource_group
+
