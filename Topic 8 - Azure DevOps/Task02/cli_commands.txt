@@ -1,0 +1,8 @@
+git checkout -b feature-enhancement
+
+git add .\FEATURES.md
+
+git commit -m "Add FEATURES.md detailing potential project enhancements"
+
+git push origin feature-enhancement
+
